@@ -6,24 +6,19 @@
   <h2>参加メンバー</h2>
 
   <% sorted_members = @match.members.sort_by(&:rating) %>
-  <% courts = sorted_members.in_groups_of(@match.coat, false) %>
+  <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
 
-  <% courts.each_with_index do |court_members, index| %>
-    <h3>コート <%= index + 1 %></h3>
-    <ul>
-      <% court_members.each do |member| %>
-        <li><%= member.name %></li>
-      <% end %>
-    </ul>
-    <% if index < courts.size - 1 %>  <!-- 最後のコート以外に線を表示 -->
-      <hr>
+
+  <% sorted_members.in_groups_of(members_per_court, false).each do |court_members| %>
+    <h3>コート</h3>
+    <% court_members.compact.combination(2).to_a.each do |pair| %>
+      <p><%= pair[0].name %>、<%= pair[1].name %> VS <%= (court_members - pair)[0].name %>、<%= (court_members - pair)[1].name %> 休み <%= (court_members - pair)[2]&.name %></p>
     <% end %>
   <% end %>
 
 <% else %>
   <p>まだメンバーが参加していません。</p>
 <% end %>
+
 <%= link_to "試合一覧", matches_path %>
 <%= link_to "ホーム", root_path %>
-
-
