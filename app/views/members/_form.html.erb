@@ -1,0 +1,9 @@
+<%= form_with(model: @member, local: true) do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.label :rating %>
+  <%= form.number_field :rating %>
+
+  <%= form.submit "Create Member" %>
+<% end %>

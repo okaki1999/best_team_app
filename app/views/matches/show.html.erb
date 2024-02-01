@@ -1,0 +1,29 @@
+<h1>試合詳細</h1>
+
+<p>コート: <%= @match.coat %></p>
+
+<% if @match.members.present? %>
+  <h2>参加メンバー</h2>
+
+  <% sorted_members = @match.members.sort_by(&:rating) %>
+  <% courts = sorted_members.in_groups_of(@match.coat, false) %>
+
+  <% courts.each_with_index do |court_members, index| %>
+    <h3>コート <%= index + 1 %></h3>
+    <ul>
+      <% court_members.each do |member| %>
+        <li><%= member.name %></li>
+      <% end %>
+    </ul>
+    <% if index < courts.size - 1 %>  <!-- 最後のコート以外に線を表示 -->
+      <hr>
+    <% end %>
+  <% end %>
+
+<% else %>
+  <p>まだメンバーが参加していません。</p>
+<% end %>
+<%= link_to "試合一覧", matches_path %>
+<%= link_to "ホーム", root_path %>
+
+

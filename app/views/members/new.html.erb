@@ -1,0 +1,17 @@
+<%= form_with(model: @member, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rating %>
+    <%= form.number_field :rating %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<%= link_to "ホーム",root_path %>

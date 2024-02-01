@@ -1,0 +1,8 @@
+<% @matchs.each do |match|%>
+<%=link_to match.id, match_path(match) %>
+<%= button_to "Delete", match_path(match), method: :delete %>
+
+<br>
+<% end %>
+
+<%= link_to "ホーム",root_path %>
