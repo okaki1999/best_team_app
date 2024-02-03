@@ -8,17 +8,36 @@
   <% sorted_members = @match.members.sort_by(&:rating) %>
   <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
 
-
-  <% sorted_members.in_groups_of(members_per_court, false).each do |court_members| %>
+<%= form_with(model: @member, local: true) do |form| %>
+<% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
+    <% if c_m.compact.size == 4 %>
     <h3>コート</h3>
-    <% court_members.compact.combination(2).to_a.each do |pair| %>
-      <p><%= pair[0].name %>、<%= pair[1].name %> VS <%= (court_members - pair)[0].name %>、<%= (court_members - pair)[1].name %> 休み <%= (court_members - pair)[2]&.name %></p>
-    <% end %>
+      <p><%= c_m[0].name %>、<%= c_m[1].name %> VS <%= c_m[2].name %>、<%= c_m[3].name %>  休み:無し </p><%= form.select :result, options_for_select(["#{c_m[0].name}、#{c_m[1].name}", "#{c_m[2].name}、#{c_m[3].name}"]), prompt: '結果を選択' %>
+      <p><%= c_m[0].name %>、<%= c_m[2].name %> VS <%= c_m[1].name %>、<%= c_m[3].name %>  休み:無し </p><%= form.select :result, options_for_select(["#{c_m[0].name}、#{c_m[2].name}", "#{c_m[1].name}、#{c_m[3].name}"]), prompt: '結果を選択' %>
+      <p><%= c_m[0].name %>、<%= c_m[3].name %> VS <%= c_m[1].name %>、<%= c_m[2].name %>  休み:無し </p><%= form.select :result, options_for_select(["#{c_m[0].name}、#{c_m[3].name}", "#{c_m[1].name}、#{c_m[2].name}"]), prompt: '結果を選択' %>
+    <% elsif c_m.compact.size == 5%>
+    <h3>コート</h3>
+      <p><%= c_m[0].name %>、<%= c_m[1].name %> VS <%= c_m[2].name %>、<%= c_m[3].name %> 休み: <%= c_m[4].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[2].name %> VS <%= c_m[1].name %>、<%= c_m[4].name %> 休み: <%= c_m[3].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[4].name %> VS <%= c_m[1].name %>、<%= c_m[3].name %> 休み: <%= c_m[2].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[3].name %> VS <%= c_m[2].name %>、<%= c_m[4].name %> 休み: <%= c_m[1].name %></p>
+      <p><%= c_m[1].name %>、<%= c_m[2].name %> VS <%= c_m[3].name %>、<%= c_m[4].name %> 休み: <%= c_m[0].name %></p>
+    <% elsif c_m.compact.size == 6%>
+      <p><%= c_m[0].name %>、<%= c_m[1].name %> VS <%= c_m[2].name %>、<%= c_m[3].name %> 休み: <%= c_m[4].name %>、<%= c_m[5].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[4].name %> VS <%= c_m[1].name %>、<%= c_m[5].name %> 休み: <%= c_m[2].name %>、<%= c_m[3].name %></p>
+      <p><%= c_m[2].name %>、<%= c_m[4].name %> VS <%= c_m[3].name %>、<%= c_m[5].name %> 休み: <%= c_m[0].name %>、<%= c_m[1].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[2].name %> VS <%= c_m[1].name %>、<%= c_m[3].name %> 休み: <%= c_m[4].name %>、<%= c_m[5].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[5].name %> VS <%= c_m[1].name %>、<%= c_m[4].name %> 休み: <%= c_m[2].name %>、<%= c_m[3].name %></p>
+      <p><%= c_m[2].name %>、<%= c_m[5].name %> VS <%= c_m[3].name %>、<%= c_m[4].name %> 休み: <%= c_m[0].name %>、<%= c_m[1].name %></p>
   <% end %>
 
+  <% end %>
+<%= form.submit '結果を保存' %>
+<% end %>
 <% else %>
   <p>まだメンバーが参加していません。</p>
 <% end %>
+
 
 <%= link_to "試合一覧", matches_path %>
 <%= link_to "ホーム", root_path %>
