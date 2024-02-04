@@ -6,6 +6,8 @@ ruby "3.1.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8"
 
+gem 'cssbundling-rails'
+
 # gem 'pry-rails'
 # gem 'pry-doc'
 # gem 'pry-byebug'
@@ -74,3 +76,5 @@ group :test do
   gem "selenium-webdriver"
 
 end
+
+gem "tailwindcss-rails", "~> 2.3"

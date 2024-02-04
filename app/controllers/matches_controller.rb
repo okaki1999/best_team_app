@@ -5,6 +5,7 @@ class MatchesController < ApplicationController
         puts @match.inspect
         @members = @match.members
         
+        
     end
 
     def index
