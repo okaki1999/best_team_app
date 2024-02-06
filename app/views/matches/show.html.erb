@@ -11,9 +11,6 @@
 
 <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
 <%= form_with(model: @member, local: true, url: match_path(@match),method: "patch") do |form| %>
-    <% c_m.each do |member| %>
-        <%= member.name %>
-    <% end %>
 
     <% if c_m.compact.size == 4 %>
     <h3>コート</h3>
@@ -42,7 +39,8 @@
       <p><%= c_m[0].name %>、<%= c_m[5].name %> VS <%= c_m[1].name %>、<%= c_m[4].name %> 休み: <%= c_m[2].name %>、<%= c_m[3].name %></p>
       <p><%= c_m[2].name %>、<%= c_m[5].name %> VS <%= c_m[3].name %>、<%= c_m[4].name %> 休み: <%= c_m[0].name %>、<%= c_m[1].name %></p>
   <% end %>
-<%= form.submit '結果を保存',onclick: 'this.disabled=true;this.form.submit();' %>
+<%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;" %>
+
   <% end %>
 
 <% end %>

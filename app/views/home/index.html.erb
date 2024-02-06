@@ -3,7 +3,9 @@
 
 <% if @members.present? %>  
   <% @members.each do |member| %>
+  <%= link_to edit_member_path(member) do %>
     <br><%= member.name %>
+  <% end %>
     <br><%= member.rating %>
     <%= link_to "メンバー削除", member_path(member), data: { turbo_method: :delete, turbo_confirm: '削除しますか?' } %>
     <% if member.already_participation? %>

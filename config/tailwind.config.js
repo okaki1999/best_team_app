@@ -1,7 +1,6 @@
 module.exports = {
     content: [
-      // "../myapp/app/**/*.{html,js}",
-      "../app/**/*.{html.erb, html, js}", //<="html.erb"を指定する
+      "./app/**/*.{html.erb, js}", // .html.erb ファイルと .js ファイルを処理する
     ],
     theme: {
       extend: {},
