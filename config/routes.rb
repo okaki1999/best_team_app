@@ -7,6 +7,6 @@ Rails.application.routes.draw do
     resource :participations, only: [:create, :destroy]
   end
   
-  resources :matches, only: [:new, :create, :show, :index, :destroy]
+  resources :matches, only: [:new, :create, :show, :index, :destroy, :update]
 end
 

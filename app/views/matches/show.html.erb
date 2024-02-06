@@ -8,16 +8,28 @@
   <% sorted_members = @match.members.sort_by(&:rating) %>
   <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
 
-<%= form_with(model: @member, local: true) do |form| %>
+
 <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
+<%= form_with(model: @member, local: true, url: match_path(@match),method: "patch") do |form| %>
+    <% c_m.each do |member| %>
+        <%= member.name %>
+    <% end %>
+
     <% if c_m.compact.size == 4 %>
     <h3>コート</h3>
-      <p><%= c_m[0].name %>、<%= c_m[1].name %> VS <%= c_m[2].name %>、<%= c_m[3].name %>  休み:無し </p><%= form.select :result, options_for_select(["#{c_m[0].name}、#{c_m[1].name}", "#{c_m[2].name}、#{c_m[3].name}"]), prompt: '結果を選択' %>
-      <p><%= c_m[0].name %>、<%= c_m[2].name %> VS <%= c_m[1].name %>、<%= c_m[3].name %>  休み:無し </p><%= form.select :result, options_for_select(["#{c_m[0].name}、#{c_m[2].name}", "#{c_m[1].name}、#{c_m[3].name}"]), prompt: '結果を選択' %>
-      <p><%= c_m[0].name %>、<%= c_m[3].name %> VS <%= c_m[1].name %>、<%= c_m[2].name %>  休み:無し </p><%= form.select :result, options_for_select(["#{c_m[0].name}、#{c_m[3].name}", "#{c_m[1].name}、#{c_m[2].name}"]), prompt: '結果を選択' %>
+      <p><%= c_m[0].name %>、<%= c_m[1].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>VS 
+  <%= c_m[2].name %>、<%= c_m[3].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %> 休み:無し </p>
+
+<p><%= c_m[0].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %> VS 
+  <%= c_m[1].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %>  休み:無し </p>
+
+<p><%= c_m[0].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[3].id}],[#{c_m[1].id},#{c_m[2].id}]" , false, {multiple: true} %> VS 
+  <%= c_m[1].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[2].id}],[#{c_m[0].id},#{c_m[3].id}]" , false, {multiple: true} %>  休み:無し </p>
+
     <% elsif c_m.compact.size == 5%>
     <h3>コート</h3>
-      <p><%= c_m[0].name %>、<%= c_m[1].name %> VS <%= c_m[2].name %>、<%= c_m[3].name %> 休み: <%= c_m[4].name %></p>
+      <p><%= c_m[0].name %>、<%= c_m[1].name %> VS <%= c_m[2].name %>
+      、<%= c_m[3].name %> 休み: <%= c_m[4].name %></p>
       <p><%= c_m[0].name %>、<%= c_m[2].name %> VS <%= c_m[1].name %>、<%= c_m[4].name %> 休み: <%= c_m[3].name %></p>
       <p><%= c_m[0].name %>、<%= c_m[4].name %> VS <%= c_m[1].name %>、<%= c_m[3].name %> 休み: <%= c_m[2].name %></p>
       <p><%= c_m[0].name %>、<%= c_m[3].name %> VS <%= c_m[2].name %>、<%= c_m[4].name %> 休み: <%= c_m[1].name %></p>
@@ -30,9 +42,9 @@
       <p><%= c_m[0].name %>、<%= c_m[5].name %> VS <%= c_m[1].name %>、<%= c_m[4].name %> 休み: <%= c_m[2].name %>、<%= c_m[3].name %></p>
       <p><%= c_m[2].name %>、<%= c_m[5].name %> VS <%= c_m[3].name %>、<%= c_m[4].name %> 休み: <%= c_m[0].name %>、<%= c_m[1].name %></p>
   <% end %>
-
+<%= form.submit '結果を保存',onclick: 'this.disabled=true;this.form.submit();' %>
   <% end %>
-<%= form.submit '結果を保存' %>
+
 <% end %>
 <% else %>
   <p>まだメンバーが参加していません。</p>

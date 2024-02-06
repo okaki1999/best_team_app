@@ -4,7 +4,7 @@ class MatchesController < ApplicationController
         @match = Match.find(params[:id])
         puts @match.inspect
         @members = @match.members
-        
+
         
     end
 
@@ -44,6 +44,17 @@ class MatchesController < ApplicationController
           # リダイレクト
           redirect_to match_path(match_id), notice: '新しい試合が作成されました。'
         end
+      end
+      def update
+        params[:member_reslt].each do |result|
+          member_ids = result.scan(/\d+/).map(&:to_i)
+          rating_change = 10
+    
+          Member.where(id: [member_ids.first, member_ids.second]).update_all("rating = rating + #{rating_change}")
+          Member.where(id: [member_ids.fourth, member_ids.third]).update_all("rating = rating - #{rating_change}")
+        end
+        
+    
       end
 
     def destroy

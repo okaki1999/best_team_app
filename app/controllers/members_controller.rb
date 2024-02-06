@@ -67,7 +67,7 @@ def update
 
   
     def member_params
-      params.require(:member).permit(:name, :rating)
+      params.require(:member).permit(:name, :rating, :member_reslt[])
     end
   
     def set_member
