@@ -83,7 +83,7 @@ class MatchesController < ApplicationController
     def destroy
         @match = Match.find(params[:id])
         @match.destroy
-        redirect_to root_path, notice: 'Member was successfully deleted.'
+        redirect_to matches_path, notice: 'Member was successfully deleted.'
     end
     
     private

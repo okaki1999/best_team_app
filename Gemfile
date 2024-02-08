@@ -6,7 +6,7 @@ ruby "3.1.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8"
 
-gem 'cssbundling-rails'
+# gem 'cssbundling-rails'
 
 # gem 'pry-rails'
 # gem 'pry-doc'
@@ -77,4 +77,8 @@ group :test do
 
 end
 
-gem "tailwindcss-rails", "~> 2.3"
+# gem "tailwindcss-rails", "~> 2.3"
+#foreman追加時に追加
+gem "propshaft"
+gem "jsbundling-rails"
+gem "cssbundling-rails"
