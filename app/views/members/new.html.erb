@@ -1,4 +1,5 @@
 <h1>ユーザー登録</h1>
+<h1>レート目安<br>全く初めて：1000<br>体育でやったことある：1500<br>経験者：1800</h1>
 
 <%= form_with(model: @member, local: true) do |form| %>
   <div class="field">
@@ -12,7 +13,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "メンバー登録" %>
   </div>
 <% end %>
 
