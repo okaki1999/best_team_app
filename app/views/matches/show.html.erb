@@ -60,6 +60,8 @@
 
                 <p>第六試合：<%= c_m[2].name %>、<%= c_m[5].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[5].id}],[#{c_m[3].id},#{c_m[4].id}]" , false, {multiple: true} %> VS 
                 <%= c_m[3].name %>、<%= c_m[4].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[3].id},#{c_m[4].id}],[#{c_m[2].id},#{c_m[5].id}]" , false, {multiple: true} %> 休み: <%= c_m[0].name %>、<%= c_m[1].name %></p>
+            <% elsif c_m.compact.size >= 7%>
+            <%= c_m.compact.size %>
             <% end %>
         <%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;" %>
         <% end %>
