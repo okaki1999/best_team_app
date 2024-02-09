@@ -1,20 +1,27 @@
-<h1>ユーザー登録</h1>
-<h1>レート目安<br>全く初めて：1000<br>体育でやったことある：1500<br>経験者：1800</h1>
+<nav class="navbar bg-info">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white font-weight-bold">メンバー登録</a>
+    <div class="text-right">
+    <%= link_to "ホーム", root_path, class: "btn btn-outline-light"  %>
+    </div>
+  </div>
+</nav>
 
+<div class="card m-2 text-center">
 <%= form_with(model: @member, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :name %>
+  <div class="field mt-2">
+    <%= form.label :name,"名前" %>
     <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :rating %>
+  <div class="field mt-2">
+    <%= form.label :rating,"初期レート" %>
     <%= form.number_field :rating %>
   </div>
 
-  <div class="actions">
-    <%= form.submit "メンバー登録" %>
+  <div class="actions mt-2 mb-2">
+    <%= form.submit "メンバー登録", class: "btn btn-outline-info" %>
   </div>
 <% end %>
-
-<%= link_to "ホーム",root_path %>
+</div>
+<p class="text-center">初期レート目安<br>全く初めて：1000<br>体育でやったことある：1500<br>経験者：1800</p>

@@ -1,6 +1,6 @@
 <nav class="navbar bg-info">
   <div class="container-fluid">
-    <a class="navbar-brand text-white font-weight-bold" href="#">メンバー確認</a>
+    <a class="navbar-brand text-white font-weight-bold">メンバー確認</a>
     <div class="text-right">
     <%= link_to "メンバーを登録",new_member_path, class: "btn btn-outline-light" %>
     <%= link_to "試合一覧", matches_path, class: "btn btn-outline-light" %>
@@ -13,7 +13,7 @@
     <div class="row row-cols-2 g-4">
       <% @members.each do |member| %>
         <div class="col">
-          <div class="card">
+          <div class="card text-center">
             <div class="card-body">
               <h5 class="card-title">
                 <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>

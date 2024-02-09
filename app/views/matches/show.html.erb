@@ -1,28 +1,50 @@
-<h1>試合詳細</h1>
+<nav class="navbar bg-info">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white font-weight-bold">試合詳細</a>
+    <div class="text-right">
+    <%= link_to "ホーム", root_path, class: "btn btn-outline-light"  %>
+    <%= link_to "試合一覧", matches_path, class: "btn btn-outline-light" %>
+    </div>
+  </div>
+</nav>
 
-<p>コート数: <%= @match.coat %></p>
+<%
+=begin%>
+ <p>コート数: <%#= @match.coat %></p> 
+<%
+=end%>
 
 <% if @match.members.present? %>
-    <h2>参加メンバー</h2>
+    <%
+=begin%>
+ <h2>参加メンバー</h2> 
+<%
+=end%>
 
     <% sorted_members = @match.members.sort_by(&:rating) %>
     <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
 
 
     <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
+    <div class="container bg-info card mt-2">
         <%= form_with(model: @member, local: true, url: match_path(@match),method: "patch") do |form| %>
 
             <% if c_m.compact.size == 4 %>
-            <h3>コート</h3>
-                <p>第一試合：<%= c_m[0].name %>、<%= c_m[1].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>VS 
-                <%= c_m[2].name %>、<%= c_m[3].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %> 休み:無し </p>
-
-                <p>第二試合：<%= c_m[0].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %> VS 
-                <%= c_m[1].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %>  休み:無し </p>
-
-                <p>第三試合：<%= c_m[0].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[3].id}],[#{c_m[1].id},#{c_m[2].id}]" , false, {multiple: true} %> VS 
-                <%= c_m[1].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[2].id}],[#{c_m[0].id},#{c_m[3].id}]" , false, {multiple: true} %>  休み:無し </p>
-
+            <div class="card m-2">
+                <h3 class="text-center mt-3">第一試合</h3>
+                <h5 class="text-center"><%= c_m[0].name %>、<%= c_m[1].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>VS 
+                <%= c_m[2].name %>、<%= c_m[3].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %></h5><h5 class="text-center"> 休み:無し </h5>
+            </div>
+            <div class="card m-2">
+                <h3 class="text-center mt-3">第二試合</h3>
+                <h5 class="text-center"><%= c_m[0].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %> VS 
+                <%= c_m[1].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %></h5><h5 class="text-center"> 休み:無し </h5>
+            </div>
+            <div class="card m-2">
+                <h3 class="text-center mt-3">第三試合</h3>
+                <h5 class="text-center"><%= c_m[0].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[3].id}],[#{c_m[1].id},#{c_m[2].id}]" , false, {multiple: true} %> VS 
+                <%= c_m[1].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[2].id}],[#{c_m[0].id},#{c_m[3].id}]" , false, {multiple: true} %></h5><h5 class="text-center"> 休み:無し </h5>
+            </div>
             <% elsif c_m.compact.size == 5%>
                 <h3>コート</h3>
                 <p>第一試合：<%= c_m[0].name %>、<%= c_m[1].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %> VS 
@@ -61,15 +83,34 @@
                 <p>第六試合：<%= c_m[2].name %>、<%= c_m[5].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[5].id}],[#{c_m[3].id},#{c_m[4].id}]" , false, {multiple: true} %> VS 
                 <%= c_m[3].name %>、<%= c_m[4].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[3].id},#{c_m[4].id}],[#{c_m[2].id},#{c_m[5].id}]" , false, {multiple: true} %> 休み: <%= c_m[0].name %>、<%= c_m[1].name %></p>
             <% elsif c_m.compact.size >= 7%>
+            
+            <div class="card m-2">
+                <h3 class="text-center mt-3">第一試合</h3>
+                <h5 class="text-center"><%= c_m[0].name %>、<%= c_m[1].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>VS 
+                <%= c_m[2].name %>、<%= c_m[3].name %> <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %></h5><h5 class="text-center"> 休み:無し </h5>
+            </div>
+            <div class="card m-2">
+                <h3 class="text-center mt-3">第二試合</h3>
+                <h5 class="text-center"><%= c_m[0].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %> VS 
+                <%= c_m[1].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %></h5><h5 class="text-center"> 休み:無し </h5>
+            </div>
+            <div class="card m-2">
+                <h3 class="text-center mt-3">第三試合</h3>
+                <h5 class="text-center"><%= c_m[0].name %>、<%= c_m[3].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[3].id}],[#{c_m[1].id},#{c_m[2].id}]" , false, {multiple: true} %> VS 
+                <%= c_m[1].name %>、<%= c_m[2].name %><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[2].id}],[#{c_m[0].id},#{c_m[3].id}]" , false, {multiple: true} %></h5><h5 class="text-center"> 休み:無し </h5>
+            </div>
+            
             <%= c_m.compact.size %>
             <% end %>
-        <%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;" %>
+        <div class="text-center mb-4">
+        <%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;", class: "btn btn-outline-light" %>
+        </div>
         <% end %>
+    </div>
     <% end %>
 <% else %>
   <p>まだメンバーが参加していません。</p>
 <% end %>
 
 
-<%= link_to "試合一覧", matches_path %>
-<%= link_to "ホーム", root_path %>
+

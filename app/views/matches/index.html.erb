@@ -1,8 +1,15 @@
+<nav class="navbar bg-info">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white font-weight-bold">試合一覧</a>
+    <div class="text-right">
+    <%= link_to "ホーム", root_path, class: "btn btn-outline-light"  %>
+    </div>
+  </div>
+</nav>
+
 <% @matchs.each do |match|%>
-<%=link_to match.id, match_path(match) %>
-<%= button_to "Delete", match_path(match), method: :delete %>
-
-<br>
+<div class="card m-2 text-center">
+<%=link_to match.created_at.in_time_zone("Tokyo").strftime("%Y年%m月%d日"), match_path(match) %>
+<%= button_to "Delete", match_path(match), class: "btn btn-outline-danger btn-sm", method: :delete %>
+</div>
 <% end %>
-
-<%= link_to "ホーム",root_path %>
