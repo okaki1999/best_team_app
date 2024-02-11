@@ -27,7 +27,7 @@
                 <%= member.rating %>
               </div>
               <% if member.already_participation? %>
-                <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm", method: :delete, data: { turbo_method: :delete } do %>
+                <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
                   不参加にする
                 <% end %>
               <% else %>
