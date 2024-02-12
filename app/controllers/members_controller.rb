@@ -4,6 +4,10 @@ class MembersController < ApplicationController
     def new
         @member = Member.new
     end
+    
+    def show
+        @members = Member.all
+    end
 
     def create
         @member = Member.new(member_params)
