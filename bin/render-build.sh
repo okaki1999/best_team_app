@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+bundle lock --add-platform x86_64-linux
+
 # exit on error
 set -o errexit
 
