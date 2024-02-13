@@ -80,3 +80,7 @@ end
 gem "propshaft"
 gem "jsbundling-rails"
 gem "cssbundling-rails"
+
+group :production do
+  gem 'pg'
+end
