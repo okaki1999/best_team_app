@@ -18,6 +18,7 @@
               <h5 class="card-title">
                 <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
                   <%= member.name %>
+                  <%= member.id %>
                 <% end %>
                 <% if member.already_participation? %>
                   <span class="badge bg-primary">参加中</span>

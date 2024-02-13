@@ -4,8 +4,6 @@ class MatchesController < ApplicationController
         @match = Match.find(params[:id])
         puts @match.inspect
         @members = @match.members
-
-        
     end
 
     def index
@@ -19,31 +17,39 @@ class MatchesController < ApplicationController
     def create
         @match = Match.new(match_params)
         p match_params.inspect
+        match_id = nil
       
         @members = Member.all
         @member_ids = @members.select(&:already_participation?).map(&:id)
+        p @member_ids.inspect
       
-        # トランザクションを開始
-        ActiveRecord::Base.transaction do
-            # まずは試合を保存
-            if @match.save
+       
+        begin
+            # トランザクションを開始
+            ActiveRecord::Base.transaction do
+                # まずは試合を保存
+                @match.save!
+                match_id = @match.id
+                p @match.inspect
                 # 試合が保存されたら、各メンバーを試合に参加させる
                 @member_ids.each do |member|
                     @enrollment = Enrollment.new(member_id: member, match_id: @match.id)
                     @enrollment.save!
                 end
                 # リダイレクト時に試合のIDが必要なので保存後にIDを取得
-                match_id = @match.id
-            else
-                # 試合の保存に失敗した場合の処理
-                # エラーメッセージを表示したり、必要に応じて処理を行う
-                redirect_to action: :new
-            return
+                
+                p @enrollment.inspect
             end
-      
-            # リダイレクト
-            redirect_to match_path(match_id), notice: '新しい試合が作成されました。'
+            
+        rescue => exception
+            p exception
+            # 試合の保存に失敗した場合の処理
+            # エラーメッセージを表示したり、必要に応じて処理を行う
+            return redirect_to action: :new
         end
+        
+        # リダイレクト
+        return redirect_to match_path(match_id), notice: '新しい試合が作成されました。'
     end
 
     def clamp(point, min, max)
@@ -90,6 +96,6 @@ class MatchesController < ApplicationController
     private
 
     def match_params
-        params.require(:match).permit(:coat, :member_id)
+        params.require(:match).permit(:coat)
     end
 end
