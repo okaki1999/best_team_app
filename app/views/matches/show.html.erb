@@ -20,14 +20,14 @@
  <h2>参加メンバー</h2> 
 <%
 =end%>
-<%= @members.inspect %>
+
 
     <% sorted_members = @match.members.sort_by(&:rating) %>
     <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
 
 
     <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
-    <div class="container bg-info card mt-2">
+    <div class="container card mt-2 border border-3 px-4">
         <%= form_with(model: @member, local: true, url: match_path(@match),method: "patch") do |form| %>
 
             <% if c_m.compact.size == 4 %>
