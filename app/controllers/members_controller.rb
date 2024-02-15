@@ -35,7 +35,7 @@ class MembersController < ApplicationController
     def update
         @member = Member.find(params[:id])
         if @member.update(member_params)
-          redirect_to root_path,notice: "更新に成功しました。"
+          redirect_to members_path,notice: "更新に成功しました。"
         else
           render :edit, status: :unprocessable_entity
         end
