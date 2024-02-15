@@ -1,4 +1,4 @@
-<nav class="navbar bg-info">
+<nav class="navbar bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand text-white font-weight-bold">メンバー確認</a>
     <div class="text-right">
@@ -13,20 +13,20 @@
     <div class="row row-cols-2 g-4">
       <% @members.each do |member| %>
         <div class="col">
-          <div class="card text-center">
+
+
+
+
+          <% if member.already_participation? %>
+          <div class="card text-center border border-primary border-2">
             <div class="card-body">
-              <h5 class="card-title">
-                <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
+              <h5 class="card-title ext-decoration-none text-dark">
                   <%= member.name %>
-                  <%= member.id %>
-                <% end %>
+                  
                 <% if member.already_participation? %>
                   <span class="badge bg-primary">参加中</span>
                 <% end %>
               </h5>
-              <div class="card-text">
-                <%= member.rating %>
-              </div>
               <% if member.already_participation? %>
                 <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
                   不参加にする
@@ -36,30 +36,55 @@
                   参加にする
                 <% end %>
               <% end %>
-              <%= link_to "メンバー削除", member_path(member), class: "btn btn-outline-danger btn-sm", data: { turbo_method: :delete, turbo_confirm: '削除しますか?' } %>
+              
             </div>
           </div>
+          <% else %>
+
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
+                  <%= member.name %>
+                <% end %>
+                <% if member.already_participation? %>
+                  <span class="badge bg-primary">参加中</span>
+                <% end %>
+              </h5>
+              <% if member.already_participation? %>
+                <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
+                  不参加にする
+                <% end %>
+              <% else %>
+                <%= button_to member_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
+                  参加にする
+                <% end %>
+              <% end %>
+              
+            </div>
+          </div>
+          <% end %>
         </div>
       <% end %>
     </div>
   </div>
-  <p class="text-center mt-2" >参加中のメンバー数: <%= @members.select(&:already_participation?).count %></p>
+  <h5 class="text-center mt-2" >参加中のメンバー数: <%= @members.select(&:already_participation?).count %></h5>
 <% else %>
   <p>メンバーが存在しません。</p>
 <% end %>
 
 <div class="container mb-4">
-<div class="card">
+<div class="card border border-primary border-2">
 <%= form_with(model: @match, url: matches_path, method: :post) do |form| %>
-  <div class="text-center mt-4">
+  <h5 class="text-center mt-4">
     <%= form.label :coat, "使用コート数を選択", class: "form-label" %>
     <%= form.select :coat, (1..4).to_a, class: "form-select" %>
-  </div>
+  </h5>
   <%#= form.fields_for :member do |member_form| %>
     <%#= form.hidden_field :member_id, value: @member_ids.any? ? @member_ids.join(',') : nil %>
   <%# end %>
   <div class="text-center mb-4">
-  <%= form.submit "試合作成", class: "btn btn-outline-primary mt-3" %>
+  <%= form.submit "試合作成", class: "btn btn-primary mt-3" %>
   </div>
 <% end %>
 </div>

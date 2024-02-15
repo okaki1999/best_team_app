@@ -4,9 +4,17 @@ class MembersController < ApplicationController
     def new
         @member = Member.new
     end
-    
-    def show
+
+    def index
         @members = Member.all
+        if params[:id].present?
+          @member = Member.find(params[:id])
+        else
+          # 何かしらのデフォルト処理やエラー処理を実装
+          # 例: @member = Member.first
+        end
+        
+        
     end
 
     def create

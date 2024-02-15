@@ -1,4 +1,4 @@
-<nav class="navbar bg-info">
+<nav class="navbar bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand text-white font-weight-bold">試合一覧</a>
     <div class="text-right">
@@ -8,8 +8,8 @@
 </nav>
 
 <% @matchs.each do |match|%>
-<div class="card m-2 text-center">
-<%=link_to match.created_at.in_time_zone("Tokyo").strftime("%Y年%m月%d日"), match_path(match) %>
-<%= button_to "Delete", match_path(match), class: "btn btn-outline-danger btn-sm", method: :delete %>
+<div class="card m-2 text-center border border-primary border-2">
+<h5 class="mt-2"><%=link_to match.created_at.in_time_zone("Tokyo").strftime("%Y年%m月%d日"), match_path(match) %></h5>
+<%= button_to "削除", match_path(match), class: "btn btn-outline-danger btn-sm  mb-2", method: :delete %>
 </div>
 <% end %>
