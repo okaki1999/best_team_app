@@ -1,8 +1,9 @@
-<nav class="navbar bg-primary">
+<nav class="navbar bg-success">
   <div class="container-fluid">
     <a class="navbar-brand text-white font-weight-bold">バスケメンバー</a>
     <div class="text-right">
-    <%= link_to "メンバーを登録",new_bsk_member_path, class: "btn btn-outline-light" %>
+    <%= link_to "ホーム",root_path, class: "btn btn-outline-light" %>
+    <%= link_to "バスケメンバー登録",new_bsk_member_path, class: "btn btn-outline-light" %>
     <%= link_to "試合一覧", bsk_matches_path, class: "btn btn-outline-light" %>
     </div>
   </div>
@@ -15,14 +16,14 @@
         <div class="col">
 
           <% if member.bsk_already_participation? %>
-          <div class="card text-center border border-primary border-2">
+          <div class="card text-center border border-success border-2">
             <div class="card-body">
               <h5 class="card-title ext-decoration-none text-dark">
                   <%= member.name %>
                   <%= member.scoring_rate %>
                   
                 <% if member.bsk_already_participation? %>
-                  <span class="badge bg-primary">参加中</span>
+                  <span class="badge bg-success">参加中</span>
                 <% end %>
               </h5>
               <% if member.bsk_already_participation? %>
@@ -30,7 +31,7 @@
                   不参加にする
                 <% end %>
               <% else %>
-                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
+                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-success btn-sm", method: :post, data: { turbo_method: :post } do %>
                   参加にする
                 <% end %>
               <% end %>
@@ -46,7 +47,7 @@
                   <%= member.name %>
                 <% end %>
                 <% if member.bsk_already_participation? %>
-                  <span class="badge bg-primary">参加中</span>
+                  <span class="badge bg-success">参加中</span>
                 <% end %>
               </h5>
               <% if member.bsk_already_participation? %>
@@ -54,7 +55,7 @@
                   不参加にする
                 <% end %>
               <% else %>
-                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
+                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-success btn-sm", method: :post, data: { turbo_method: :post } do %>
                   参加にする
                 <% end %>
               <% end %>
@@ -72,7 +73,7 @@
 <% end %>
 
 <div class="container mb-4">
-<div class="card border border-primary border-2">
+<div class="card border border-success border-2">
 <%= form_with(model: @match, url: bsk_matches_path, method: :post) do |form| %>
   <h5 class="text-center mt-4">
     <%= form.label :coat, "使用コート数を選択", class: "form-label" %>
@@ -82,7 +83,7 @@
     <%#= form.hidden_field :member_id, value: @member_ids.any? ? @member_ids.join(',') : nil %>
   <%# end %>
   <div class="text-center mb-4">
-  <%= form.submit "試合作成", class: "btn btn-primary mt-3" %>
+  <%= form.submit "試合作成", class: "btn btn-success mt-3" %>
   </div>
 <% end %>
 </div>

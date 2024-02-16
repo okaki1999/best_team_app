@@ -1,14 +1,17 @@
-<nav class="navbar bg-primary">
+<nav class="navbar bg-secondary">
   <div class="container-fluid">
     <a class="navbar-brand text-white font-weight-bold">チーム分けアプリ</a>
-    <div class="text-right">
-    <%= link_to "メンバーを登録",new_member_path, class: "btn btn-outline-light" %>
-    <%= link_to "試合一覧", matches_path, class: "btn btn-outline-light" %>
-    </div>
   </div>
 </nav>
-
-<%= link_to "バスケ", bsk_members_path, class: "btn btn-info" %>
-<%= link_to "バドミントン", members_path, class: "btn btn-info" %>
+<div class="container">
+  <div class="text-center">
+    <div class="card mt-3">
+    <%= link_to "バスケ", bsk_members_path, class: "btn btn-success btn-lg" %>
+    </div>
+    <div class="card mt-3">
+    <%= link_to "バドミントン", members_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  </div>
+</div>
 
 

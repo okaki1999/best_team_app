@@ -67,8 +67,8 @@ class BskMatchesController < ApplicationController
             member_ids = result.scan(/\d+/).map(&:to_i)
   
             # メンバーの平均レーティングを計算
-            winner_avg_rating = (BskMember.find(member_ids.first).rating + BskMember.find(member_ids.second).rating) / 2.0
-            loser_avg_rating = (BskMember.find(member_ids.fourth).rating + BskMember.find(member_ids.third).rating) / 2.0
+            winner_avg_rating = (BskMember.find(member_ids.first).scoring_rate + BskMember.find(member_ids.second).scoring_rate) / 2.0
+            loser_avg_rating = (BskMember.find(member_ids.fourth).scoring_rate + BskMember.find(member_ids.third).scoring_rate) / 2.0
   
             # K 値の定義
             k = 32
@@ -80,8 +80,8 @@ class BskMatchesController < ApplicationController
             rating_change = clamp((rating_change + 0.5).ceil, 2, 32)
   
             # メンバーのレーティングを更新
-            BskMember.where(id: [member_ids.first, member_ids.second]).update_all("rating = rating + #{rating_change}")
-            BskMember.where(id: [member_ids.fourth, member_ids.third]).update_all("rating = rating - #{rating_change}")
+            BskMember.where(id: [member_ids.first, member_ids.second]).update_all("scoring_rate = scoring_rate + #{rating_change}")
+            BskMember.where(id: [member_ids.fourth, member_ids.third]).update_all("scoring_rate = scoring_rate - #{rating_change}")
         end
         
     end
@@ -90,7 +90,7 @@ class BskMatchesController < ApplicationController
     def destroy
         @match = BskMatch.find(params[:id])
         @match.destroy
-        redirect_to matches_path, notice: 'Member was successfully deleted.'
+        redirect_to bsk_matches_path, notice: 'Member was successfully deleted.'
     end
     
     private

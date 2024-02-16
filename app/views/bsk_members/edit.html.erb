@@ -1,6 +1,6 @@
 <nav class="navbar bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand text-white font-weight-bold">メンバー登録</a>
+    <a class="navbar-brand text-white font-weight-bold">メンバー編集</a>
     <div class="text-right">
     <%= link_to "バスケトップ", bsk_members_path, class: "btn btn-outline-light"  %>
     </div>
@@ -15,13 +15,12 @@
   </div>
 
   <div class="field mt-2">
-    <%= form.label :scoring_rate,"初期得点率" %>
+    <%= form.label :scoring_rate,"レート" %>
     <%= form.number_field :scoring_rate %>
   </div>
 
   <div class="actions mt-2 mb-2">
-    <%= form.submit "バスケメンバー登録", class: "btn btn-outline-success" %>
+    <%= form.submit "編集を保存", class: "btn btn-outline-success" %>
   </div>
 <% end %>
 </div>
-<p class="text-center">初期レート目安<br>あああ<br>あああ<br>経験者（ブランク有）：1500<br>経験者：1800</p>

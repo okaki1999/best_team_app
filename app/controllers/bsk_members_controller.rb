@@ -45,7 +45,7 @@ class BskMembersController < ApplicationController
     def update
         @member = BskMember.find(params[:id])
         if @member.update(member_params)
-          redirect_to members_path,notice: "更新に成功しました。"
+          redirect_to detail_bsk_members_path,notice: "更新に成功しました。"
         else
           render :edit, status: :unprocessable_entity
         end

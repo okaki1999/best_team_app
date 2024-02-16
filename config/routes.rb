@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     get 'detail', on: :collection
   end
   resources :bsk_members, only: [:new, :create, :destroy, :update, :edit, :index] do
-    resources :enrollments, only: [:create, :destroy], controller: 'enrollments'
+    resources :bsk_enrollments, only: [:create, :destroy], controller: 'bsk_enrollments'
     resource :bsk_participations, only: [:create, :destroy]
     get 'detail', on: :collection
   end
