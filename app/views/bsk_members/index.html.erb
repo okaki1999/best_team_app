@@ -1,9 +1,9 @@
 <nav class="navbar bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand text-white font-weight-bold">メンバー確認</a>
+    <a class="navbar-brand text-white font-weight-bold">バスケメンバー</a>
     <div class="text-right">
-    <%= link_to "メンバーを登録",new_member_path, class: "btn btn-outline-light" %>
-    <%= link_to "試合一覧", matches_path, class: "btn btn-outline-light" %>
+    <%= link_to "メンバーを登録",new_bsk_member_path, class: "btn btn-outline-light" %>
+    <%= link_to "試合一覧", bsk_matches_path, class: "btn btn-outline-light" %>
     </div>
   </div>
 </nav>
@@ -14,23 +14,23 @@
       <% @members.each do |member| %>
         <div class="col">
 
-          <% if member.already_participation? %>
+          <% if member.bsk_already_participation? %>
           <div class="card text-center border border-primary border-2">
             <div class="card-body">
               <h5 class="card-title ext-decoration-none text-dark">
                   <%= member.name %>
-                  <%= member.rating %>
+                  <%= member.scoring_rate %>
                   
-                <% if member.already_participation? %>
+                <% if member.bsk_already_participation? %>
                   <span class="badge bg-primary">参加中</span>
                 <% end %>
               </h5>
-              <% if member.already_participation? %>
-                <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
+              <% if member.bsk_already_participation? %>
+                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
                   不参加にする
                 <% end %>
               <% else %>
-                <%= button_to member_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
+                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
                   参加にする
                 <% end %>
               <% end %>
@@ -45,16 +45,16 @@
                 <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
                   <%= member.name %>
                 <% end %>
-                <% if member.already_participation? %>
+                <% if member.bsk_already_participation? %>
                   <span class="badge bg-primary">参加中</span>
                 <% end %>
               </h5>
-              <% if member.already_participation? %>
-                <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
+              <% if member.bsk_already_participation? %>
+                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>
                   不参加にする
                 <% end %>
               <% else %>
-                <%= button_to member_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
+                <%= button_to bsk_member_bsk_participations_path(member), class: "btn btn-outline-primary btn-sm", method: :post, data: { turbo_method: :post } do %>
                   参加にする
                 <% end %>
               <% end %>
@@ -66,14 +66,14 @@
       <% end %>
     </div>
   </div>
-  <h5 class="text-center mt-2" >参加中のメンバー数: <%= @members.select(&:already_participation?).count %></h5>
+  <h5 class="text-center mt-2" >参加中のメンバー数: <%= @members.select(&:bsk_already_participation?).count %></h5>
 <% else %>
   <p>メンバーが存在しません。</p>
 <% end %>
 
 <div class="container mb-4">
 <div class="card border border-primary border-2">
-<%= form_with(model: @match, url: matches_path, method: :post) do |form| %>
+<%= form_with(model: @match, url: bsk_matches_path, method: :post) do |form| %>
   <h5 class="text-center mt-4">
     <%= form.label :coat, "使用コート数を選択", class: "form-label" %>
     <%= form.select :coat, (1..4).to_a, class: "form-select" %>

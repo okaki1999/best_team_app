@@ -1,0 +1,27 @@
+<nav class="navbar bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white font-weight-bold">メンバー登録</a>
+    <div class="text-right">
+    <%= link_to "ホーム", root_path, class: "btn btn-outline-light"  %>
+    </div>
+  </div>
+</nav>
+
+<div class="card m-2 text-center">
+<%= form_with(model: @member, local: true) do |form| %>
+  <div class="field mt-2">
+    <%= form.label :name,"名前" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field mt-2">
+    <%= form.label :scoring_rate,"初期得点率" %>
+    <%= form.number_field :scoring_rate %>
+  </div>
+
+  <div class="actions mt-2 mb-2">
+    <%= form.submit "バスケメンバー登録", class: "btn btn-outline-primary" %>
+  </div>
+<% end %>
+</div>
+<p class="text-center">初期レート目安<br>あああ<br>あああ<br>経験者（ブランク有）：1500<br>経験者：1800</p>

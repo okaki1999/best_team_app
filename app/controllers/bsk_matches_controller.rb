@@ -1,26 +1,26 @@
-class MatchesController < ApplicationController
-
+class BskMatchesController < ApplicationController
+    
     def show
-        @match = Match.find(params[:id])
+        @match = BskMatch.find(params[:id])
         puts @match.inspect
-        @members = @match.members
+        @members = @match.bsk_members
     end
 
     def index
-        @matchs = Match.all
+        @matchs = BskMatch.all
     end
 
     def new
-        @match = Match.new
+        @match = BskMatch.new
     end
 
     def create
-        @match = Match.new(match_params)
+        @match = BskMatch.new(match_params)
         p match_params.inspect
         match_id = nil
       
-        @members = Member.all
-        @member_ids = @members.select(&:already_participation?).map(&:id)
+        @members = BskMember.all
+        @member_ids = @members.select(&:bsk_already_participation?).map(&:id)
         p @member_ids.inspect
       
        
@@ -33,7 +33,7 @@ class MatchesController < ApplicationController
                 p @match.inspect
                 # 試合が保存されたら、各メンバーを試合に参加させる
                 @member_ids.each do |member|
-                    @enrollment = Enrollment.new(member_id: member, match_id: @match.id)
+                    @enrollment = BskEnrollment.new(bsk_member_id: member, bsk_match_id: @match.id)
                     @enrollment.save!
                 end
                 # リダイレクト時に試合のIDが必要なので保存後にIDを取得
@@ -49,7 +49,7 @@ class MatchesController < ApplicationController
         end
         
         # リダイレクト
-        return redirect_to match_path(match_id), notice: '新しい試合が作成されました。'
+        return redirect_to bsk_match_path(match_id), notice: '新しい試合が作成されました。'
     end
 
     def clamp(point, min, max)
@@ -67,8 +67,8 @@ class MatchesController < ApplicationController
             member_ids = result.scan(/\d+/).map(&:to_i)
   
             # メンバーの平均レーティングを計算
-            winner_avg_rating = (Member.find(member_ids.first).rating + Member.find(member_ids.second).rating) / 2.0
-            loser_avg_rating = (Member.find(member_ids.fourth).rating + Member.find(member_ids.third).rating) / 2.0
+            winner_avg_rating = (BskMember.find(member_ids.first).rating + BskMember.find(member_ids.second).rating) / 2.0
+            loser_avg_rating = (BskMember.find(member_ids.fourth).rating + BskMember.find(member_ids.third).rating) / 2.0
   
             # K 値の定義
             k = 32
@@ -80,15 +80,15 @@ class MatchesController < ApplicationController
             rating_change = clamp((rating_change + 0.5).ceil, 2, 32)
   
             # メンバーのレーティングを更新
-            Member.where(id: [member_ids.first, member_ids.second]).update_all("rating = rating + #{rating_change}")
-            Member.where(id: [member_ids.fourth, member_ids.third]).update_all("rating = rating - #{rating_change}")
+            BskMember.where(id: [member_ids.first, member_ids.second]).update_all("rating = rating + #{rating_change}")
+            BskMember.where(id: [member_ids.fourth, member_ids.third]).update_all("rating = rating - #{rating_change}")
         end
         
     end
   
 
     def destroy
-        @match = Match.find(params[:id])
+        @match = BskMatch.find(params[:id])
         @match.destroy
         redirect_to matches_path, notice: 'Member was successfully deleted.'
     end
@@ -96,6 +96,6 @@ class MatchesController < ApplicationController
     private
 
     def match_params
-        params.require(:match).permit(:coat,:match)
+        params.require(:bsk_match).permit(:coat)
     end
 end

@@ -10,8 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema[7.0].define(version: 2024_02_16_083507) do
+  create_table "bsk_enrollments", force: :cascade do |t|
+    t.integer "bsk_member_id"
+    t.integer "bsk_match_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bsk_match_id"], name: "index_bsk_enrollments_on_bsk_match_id"
+    t.index ["bsk_member_id"], name: "index_bsk_enrollments_on_bsk_member_id"
+  end
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_31_071755) do
+  create_table "bsk_matches", force: :cascade do |t|
+    t.integer "bsk_member_id"
+    t.integer "coat"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bsk_member_id"], name: "index_bsk_matches_on_bsk_member_id"
+  end
+
+  create_table "bsk_members", force: :cascade do |t|
+    t.string "name"
+    t.integer "scoring_rate"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "bsk_match_id"
+    t.index ["bsk_match_id"], name: "index_bsk_members_on_bsk_match_id"
+  end
+
+  create_table "bsk_participations", force: :cascade do |t|
+    t.integer "bsk_member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "enrollments", force: :cascade do |t|
     t.integer "member_id"
     t.integer "match_id"
@@ -43,5 +74,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_31_071755) do
     t.integer "member_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "bsk_member_id"
+    t.string "participant_type"
+    t.integer "participant_id"
+    t.index ["participant_type", "participant_id"], name: "index_participations_on_participant"
   end
+
+  add_foreign_key "bsk_enrollments", "bsk_matches"
+  add_foreign_key "bsk_enrollments", "bsk_members"
+  add_foreign_key "bsk_matches", "bsk_members"
+  add_foreign_key "bsk_members", "bsk_matches"
 end

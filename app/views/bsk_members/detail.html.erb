@@ -1,0 +1,21 @@
+<nav class="navbar bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white font-weight-bold">バスケメンバー詳細</a>
+    <div class="text-right">
+    <%= link_to "ホーム", root_path, class: "btn btn-outline-light"  %>
+    <%= link_to "バスケメンバー登録", new_bsk_member_path, class: "btn btn-outline-light" %>
+    <%= link_to "試合一覧", matches_path, class: "btn btn-outline-light" %>
+    </div>
+  </div>
+</nav>
+
+
+<% @members.each do |member| %>
+<div class="card my-4">
+<%= link_to edit_member_path(member), class: "text-decoration-none text-dark text-center" do %>
+  名前：<%= member.name %>(<%= member.id %>)<br>
+  レート：<%= member.scoring_rate %>
+  <%= link_to "メンバー削除", member_path(member), class: "btn btn-outline-danger btn-sm", data: { turbo_method: :delete, turbo_confirm: '削除しますか?' } %>
+<% end %>
+</div>
+<% end %>
