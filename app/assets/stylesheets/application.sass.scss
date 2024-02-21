@@ -1,7 +1,13 @@
 // Entry point for your Sass build
-//@import "bootstrap/dist/css/bootstrap.min.css";
+// @import "bootstrap/dist/css/bootstrap.min.css";
+// @import '~bootstrap/scss/bootstrap.scss';
 
 /* CSS スタイル */
+
+// yarnでaddしたbootstrapをimportする構文
+// @import "~bootstrap/scss/bootstrap";
+
+
 
 
   
