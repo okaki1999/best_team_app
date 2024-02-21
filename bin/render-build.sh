@@ -9,5 +9,5 @@ bundle install
 bundle exec rake assets:precompile
 bundle exec rake assets:clean
 yarn build
-yarn build:css
+#yarn build:css
 bundle exec rake db:migrate
