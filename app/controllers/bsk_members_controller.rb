@@ -54,7 +54,7 @@ class BskMembersController < ApplicationController
     def destroy
         @member = BskMember.find(params[:id])
         @member.destroy
-        redirect_to root_path, notice: 'Member was successfully deleted.'
+        redirect_to detail_bsk_members_path, notice: 'Member was successfully deleted.'
     end
 
   

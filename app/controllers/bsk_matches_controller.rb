@@ -63,28 +63,14 @@ class BskMatchesController < ApplicationController
     end
   
     def update
-        params[:member_reslt].each do |result|
-            member_ids = result.scan(/\d+/).map(&:to_i)
-  
-            # メンバーの平均レーティングを計算
-            winner_avg_rating = (BskMember.find(member_ids.first).scoring_rate + BskMember.find(member_ids.second).scoring_rate) / 2.0
-            loser_avg_rating = (BskMember.find(member_ids.fourth).scoring_rate + BskMember.find(member_ids.third).scoring_rate) / 2.0
-  
-            # K 値の定義
-            k = 32
-  
-            # Elo レーティングの変化を計算
-            rating_change = k / (10 ** ((winner_avg_rating - loser_avg_rating) / 400.0) + 1)
-  
-            # レーティングの変化をクランプ
-            rating_change = clamp((rating_change + 0.5).ceil, 2, 32)
-  
-            # メンバーのレーティングを更新
-            BskMember.where(id: [member_ids.first, member_ids.second]).update_all("scoring_rate = scoring_rate + #{rating_change}")
-            BskMember.where(id: [member_ids.fourth, member_ids.third]).update_all("scoring_rate = scoring_rate - #{rating_change}")
+        if params[:member_scoring_rate].present?
+          params[:member_scoring_rate].each do |member_id, new_scoring_rate|
+            member = BskMember.find(member_id)
+            new_scoring_rate = new_scoring_rate.to_i
+            member.update(scoring_rate: member.scoring_rate + new_scoring_rate, total_match: member.total_match + 1)
+          end
         end
-        
-    end
+      end
   
 
     def destroy

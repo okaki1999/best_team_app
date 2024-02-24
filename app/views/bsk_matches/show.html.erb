@@ -8,128 +8,37 @@
   </div>
 </nav>
 
-<%
-=begin%>
- <p>コート数: <%#= @match.coat %></p> 
-<%
-=end%>
-
 <% if @match.bsk_members.present? %>
-    <%
-=begin%>
- <h2>参加メンバー</h2> 
-<%
-=end%>
+    <%= form_with(model: @member, local: true, url: bsk_match_path(@match), method: "patch") do |form| %>
+        <% sorted_members = @match.bsk_members.sort_by(&:scoring_rate).reverse %>
+        <% members_per_team = (@match.bsk_members.count.to_f / @match.coat).ceil %>
+        <% teams = Array.new(@match.coat) { [] } %>
 
-
-    <% sorted_members = @match.bsk_members.sort_by(&:scoring_rate) %>
-    <% members_per_court = (@match.bsk_members.count.to_f / @match.coat).ceil %>
-    <% counter = 0 %>
-
-    <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
-    <% counter += 1%>
-    <div class="container card mt-2 mb-2 border border-success border-3 mantine-cr1ooo">
-    <h1 calss="text-center">コート<%= counter %></h1>
-        <%= form_with(model: @member, local: true, url: bsk_match_path(@match),method: "patch") do |form| %>
-            <% if c_m.compact.size < 4 %>
-            <%= c_m[0].name %>
-            <%= c_m[1].name %>
-            <% elsif c_m.compact.size == 4%>
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第一試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[1].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %>  <%= c_m[2].name %>/<%= c_m[3].name %> </h5></div><h5 class="text-center"> 休み:無し </h5>
-            </div>
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第二試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[2].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[3].name %> </h5></div><h5 class="text-center"> 休み:無し </h5>
-            </div>
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第三試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[3].id}],[#{c_m[1].id},#{c_m[2].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[3].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[2].id}],[#{c_m[0].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[2].name %> </h5></div><h5 class="text-center"> 休み:無し </h5>
-            </div>
-            <% elsif c_m.compact.size == 5%>
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第一試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[1].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %>  <%= c_m[2].name %>/<%= c_m[3].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[4].name %> </h5>
-            </div>  
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第二試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[2].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[4].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[4].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[3].name %> </h5>
-            </div>       
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第三試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[4].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[4].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[3].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[2].name %> </h5>
-            </div>  
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第四試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[3].id}],[#{c_m[2].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[3].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[4].id}],[#{c_m[0].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[2].name %>/<%= c_m[4].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[1].name %> </h5>
-            </div>  
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-3">第五試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[2].id}],[#{c_m[3].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[2].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[3].id},#{c_m[4].id}],[#{c_m[1].id},#{c_m[2].id}]" , false, {multiple: true} %>  <%= c_m[3].name %>/<%= c_m[4].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[0].name %> </h5>
-            </div>     
-            <% elsif c_m.compact.size == 6%>
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-1">第一試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[1].id}],[#{c_m[2].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[1].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[1].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[5].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[4].name %>/<%= c_m[5].name %></h5>
-            </div> 
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-1">第二試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[4].id}],[#{c_m[1].id},#{c_m[5].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[4].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[5].id}],[#{c_m[0].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[2].name %>/<%= c_m[3].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[2].name %>/<%= c_m[3].name %></h5>
-            </div> 
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-1">第三試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[4].id}],[#{c_m[3].id},#{c_m[5].id}]" , false, {multiple: true} %>  <%= c_m[2].name %>/<%= c_m[4].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[3].id},#{c_m[5].id}],[#{c_m[2].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[3].name %>/<%= c_m[5].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[0].name %>/<%= c_m[1].name %></h5>
-            </div>  
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-1">第四試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[2].id}],[#{c_m[1].id},#{c_m[3].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[2].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[3].id}],[#{c_m[0].id},#{c_m[2].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[3].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[4].name %>/<%= c_m[5].name %></h5>
-            </div>  
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-1">第五試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[0].id},#{c_m[5].id}],[#{c_m[1].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[0].name %>/<%= c_m[5].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[1].id},#{c_m[4].id}],[#{c_m[0].id},#{c_m[5].id}]" , false, {multiple: true} %>  <%= c_m[1].name %>/<%= c_m[4].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[2].name %>/<%= c_m[3].name %></h5>
-            </div>  
-            <div class="card m-2 bg-success-subtle">
-                <h3 class="text-center mt-1">第六試合</h3>
-                <div class="card mx-4">
-                <h5 class="text-center my-2"><%= check_box_tag 'member_reslt[]', "[#{c_m[2].id},#{c_m[5].id}],[#{c_m[3].id},#{c_m[4].id}]" , false, {multiple: true} %>  <%= c_m[2].name %>/<%= c_m[5].name %></h5><h5 class="text-center">  VS  </h5><h5 class="text-center">
-                <%= check_box_tag 'member_reslt[]', "[#{c_m[3].id},#{c_m[4].id}],[#{c_m[2].id},#{c_m[5].id}]" , false, {multiple: true} %>  <%= c_m[3].name %>/<%= c_m[4].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[0].name %>/<%= c_m[1].name %></h5>
-            </div>   
-            <% elsif c_m.compact.size >= 7%>
-            <%= c_m.compact.size %>
-            <% end %>
-        <div class="text-center mb-4">
-        <%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;", class: "btn btn-success text-white" %>
-        </div>
+        <% sorted_members.each_with_index do |member, index| %>
+            <% team_index = index % @match.coat %>
+            <% teams[team_index] << member %>
         <% end %>
+
+        <% teams.each_with_index do |team_members, team_index| %>
+            <div class="container card mt-2 mb-2 border border-success border-3 mantine-cr1ooo">
+            <h1 class="text-center">チーム <%= team_index + 1 %></h1>
+            <div >
+            <% team_members.each do |member| %>
+                <div class="card"><%= member.name %><%= member.scoring_rate %><%= form.number_field "member_scoring_rate[#{member.id}]" %> </div>
+            <% end %>
+            </div>
+            <% if team_members.size < members_per_team %>
+                <div class="text-center mb-4">
+                <h3>メンバーが足りません</h3>
+                </div>
+            <% else %>
+            <% end %>
+            </div>
+        <% end %>
+    <div class="text-center mb-4">
+    <%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;", class: "btn btn-success text-white" %>
     </div>
-    <% end %>
+<% end %>
 <% else %>
   <p>まだメンバーが参加していません。</p>
 <% end %>
