@@ -10,7 +10,7 @@
 
 <% if @match.bsk_members.present? %>
     <%= form_with(model: @member, local: true, url: bsk_match_path(@match), method: "patch") do |form| %>
-        <% sorted_members = @match.bsk_members.sort_by(&:scoring_rate).reverse %>
+        <% sorted_members = @match.bsk_members.sort_by(&:point_per_game).reverse %>
         <% members_per_team = (@match.bsk_members.count.to_f / @match.coat).ceil %>
         <% teams = Array.new(@match.coat) { [] } %>
 
@@ -24,7 +24,7 @@
             <h1 class="text-center">チーム <%= team_index + 1 %></h1>
             <div >
             <% team_members.each do |member| %>
-                <div class="card"><%= member.name %><%= member.scoring_rate %><%= form.number_field "member_scoring_rate[#{member.id}]" %> </div>
+                <div class="card"><%= member.name %> - <%= number_with_precision(member.point_per_game, precision: 2) %><%= form.number_field "member_scoring_rate[#{member.id}]" %> </div>
             <% end %>
             </div>
             <% if team_members.size < members_per_team %>
@@ -42,3 +42,4 @@
 <% else %>
   <p>まだメンバーが参加していません。</p>
 <% end %>
+

@@ -23,6 +23,7 @@
                   <%= member.name %>
                   <%= member.scoring_rate %>
                   <%= member.total_match %>
+                  <%= number_with_precision(member.point_per_game, precision: 2) %>
                   
                 <% if member.bsk_already_participation? %>
                   <span class="badge bg-success">参加中</span>
@@ -49,6 +50,7 @@
                   <%= member.name %>
                   <%= member.scoring_rate %>
                   <%= member.total_match %>
+                  <%= number_with_precision(member.point_per_game, precision: 2) %>
                 <% end %>
                 <% if member.bsk_already_participation? %>
                   <span class="badge bg-success">参加中</span>
