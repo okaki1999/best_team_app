@@ -16,6 +16,7 @@
 <%= link_to edit_bsk_member_path(member), class: "text-decoration-none text-dark text-center" do %>
     なまえ：<%= member.name %><br>
     総合得点：<%= member.scoring_rate %><br>
+    
     総合試合：<%= member.total_match %><br>
     平均：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
   <%= link_to "メンバー削除", bsk_member_path(member), class: "btn btn-outline-danger btn-sm", data: { turbo_method: :delete, turbo_confirm: '削除しますか?' } %>
