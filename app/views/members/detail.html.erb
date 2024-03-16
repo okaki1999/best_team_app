@@ -10,11 +10,11 @@
 
 
 <% @members.each do |member| %>
-<div class="card my-4">
-<%= link_to edit_member_path(member), class: "text-decoration-none text-dark text-center" do %>
-  名前：<%= member.name %>(<%= member.id %>)<br>
-  レート：<%= member.rating %>
-  <%= link_to "メンバー削除", member_path(member), class: "btn btn-outline-danger btn-sm", data: { turbo_method: :delete, turbo_confirm: '削除しますか?' } %>
-<% end %>
-</div>
+  <div class="card my-4">
+    <%= link_to edit_member_path(member), class: "text-decoration-none text-dark text-center" do %>
+      名前：<%= member.name %>(<%= member.id %>)<br>
+      レート：<%= member.rating %>
+      <%= link_to "メンバー削除", member_path(member), class: "btn btn-outline-danger btn-sm", data: { turbo_method: :delete, turbo_confirm: '削除しますか?' } %>
+    <% end %>
+  </div>
 <% end %>

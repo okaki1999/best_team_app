@@ -7,6 +7,7 @@ class MembersController < ApplicationController
 
     def detail
         @members = Member.all
+        @members = @members.order(rating: :desc)
         if params[:id].present?
           @member = Member.find(params[:id])
         else
@@ -31,7 +32,7 @@ class MembersController < ApplicationController
         @member = Member.new(member_params)
         
         if @member.save
-            redirect_to root_path, notice: '新しいメンバーが作成されました。'
+            redirect_to members_path, notice: '新しいメンバーが作成されました。'
         else
             redirect_to action: :new
         end
@@ -54,7 +55,7 @@ class MembersController < ApplicationController
     def destroy
         @member = Member.find(params[:id])
         @member.destroy
-        redirect_to root_path, notice: 'Member was successfully deleted.'
+        redirect_to members_path, notice: 'Member was successfully deleted.'
     end
 
   

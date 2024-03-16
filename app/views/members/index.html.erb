@@ -20,7 +20,6 @@
             <div class="card-body">
               <h5 class="card-title ext-decoration-none text-dark">
                   <%= member.name %>
-                  <%= member.rating %>
                   
                 <% if member.already_participation? %>
                   <span class="badge bg-primary">参加中</span>
@@ -88,3 +87,5 @@
 <% end %>
 </div>
 </div>
+
+<%= link_to "情報画面", detail_members_path, class: "btn btn-outline-light" %>

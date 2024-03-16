@@ -119,7 +119,8 @@
                 <%= check_box_tag 'member_reslt[]', "[#{c_m[3].id},#{c_m[4].id}],[#{c_m[2].id},#{c_m[5].id}]" , false, {multiple: true} %>  <%= c_m[3].name %>/<%= c_m[4].name %> </h5></div><h5 class="text-center"> 休み:<%= c_m[0].name %>/<%= c_m[1].name %></h5>
             </div>   
             <% elsif c_m.compact.size >= 7%>
-            <%= c_m.compact.size %>
+            人数が多すぎるのでコートを分けて下さい。
+            現在の人数は<%= c_m.compact.size %>人です。
             <% end %>
         <div class="text-center mb-4">
         <%= form.submit '結果を保存', onclick: "if (!confirm('結果を保存してもよろしいですか？')) { return false; } this.disabled=true; this.form.submit(); return true;", class: "btn btn-primary text-white" %>
