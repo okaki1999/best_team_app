@@ -6,10 +6,14 @@ class ParticipationsController < ApplicationController
 
   end
   
-    def destroy
-      @member = Member.find(params[:member_id])
-      @participation = Participation.find_by(member_id: @member.id)
+  def destroy
+    @participation = Participation.find_by(member_id: params[:member_id])
+    if @participation
       @participation.destroy
-      redirect_to members_path, notice: '参加を取り消しました。'
+      # 削除が成功した場合の処理
+      redirect_to members_path
+    else
+      # 削除する参加記録が見つからない場合の処理
     end
+  end
 end

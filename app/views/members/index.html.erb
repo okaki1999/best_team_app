@@ -19,8 +19,7 @@
           <div class="card text-center border border-primary border-2">
             <div class="card-body">
               <h5 class="card-title ext-decoration-none text-dark">
-                  <%= member.name %>
-                  
+                  <%= member.name %><br>
                 <% if member.already_participation? %>
                   <span class="badge bg-primary">参加中</span>
                 <% end %>
@@ -44,9 +43,6 @@
               <h5 class="card-title">
                 <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
                   <%= member.name %>
-                <% end %>
-                <% if member.already_participation? %>
-                  <span class="badge bg-primary">参加中</span>
                 <% end %>
               </h5>
               <% if member.already_participation? %>
@@ -88,4 +84,4 @@
 </div>
 </div>
 
-<%= link_to "情報画面", detail_members_path, class: "btn btn-outline-light" %>
+<%= link_to "I", detail_members_path, class: "btn btn-outline-light btn-sm" %>
