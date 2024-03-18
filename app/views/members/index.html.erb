@@ -41,9 +41,7 @@
           <div class="card text-center">
             <div class="card-body">
               <h5 class="card-title">
-                <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
                   <%= member.name %>
-                <% end %>
               </h5>
               <% if member.already_participation? %>
                 <%= button_to member_participations_path(member), class: "btn btn-outline-secondary btn-sm btn-block", method: :delete, data: { turbo_method: :delete } do %>

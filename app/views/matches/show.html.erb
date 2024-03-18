@@ -20,16 +20,15 @@
  <h2>参加メンバー</h2> 
 <%
 =end%>
+<% counter = 0 %>
 
+<% sorted_members = @match.members.order(rating: :desc) %>
+<% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
+<% remaining_members = @match.members.count - sorted_members.compact.count %>
 
-    <% sorted_members = @match.members.sort_by(&:rating) %>
-    <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
-    <% counter = 0 %>
-
-    <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
-    <% counter += 1%>
-    <div class="container card mt-2 mb-2 border border-primary border-3 mantine-cr1ooo">
-    <h1 calss="text-center">コート<%= counter %></h1>
+<% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
+  <div class="container card mt-2 mb-2 border border-primary border-3 mantine-cr1ooo">
+    <h1 class="text-center">コート<%= counter += 1 %></h1>
         <%= form_with(model: @member, local: true, url: match_path(@match),method: "patch") do |form| %>
             <% if c_m.compact.size == 4 %>
             <div class="card m-2 bg-primary-subtle">
@@ -127,6 +126,7 @@
         </div>
         <% end %>
     </div>
+     <% members_per_court = ((remaining_members.to_f) / (@match.coat - 1)).ceil %>
     <% end %>
 <% else %>
   <p>まだメンバーが参加していません。</p>
