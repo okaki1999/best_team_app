@@ -26,7 +26,6 @@
 <% members_per_court = (@match.members.count.to_f / @match.coat).ceil %>
 <% remaining_members = @match.members.count - sorted_members.compact.count %>
 
-
 <% sorted_members.in_groups_of(members_per_court, false).each do |c_m| %>
   <div class="container card mt-2 mb-2 border border-primary border-3 mantine-cr1ooo">
     <h1 class="text-center">コート<%= counter += 1 %></h1>
