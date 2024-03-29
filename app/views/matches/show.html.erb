@@ -12,6 +12,7 @@
     <% counter = 0 %>
 
 
+
     <% if @match.members.compact.size == 13 %>
         <% sorted_members = @match.members.order(rating: :asc) %>
         <% sorted_members.in_groups_of(@match.members.count.to_f, false).each do |c_m| %>
