@@ -21,9 +21,7 @@
             <div class="card-body">
               <h5 class="card-title ext-decoration-none text-dark">
                   なまえ：<%= member.name %><br>
-                  総合得点：<%= member.scoring_rate %><br>
-                  総合試合：<%= member.total_match %><br>
-                  平均：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
+                  平均得点率：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
                   
                 <% if member.bsk_already_participation? %>
                   <span class="badge bg-success">参加中</span>
@@ -47,10 +45,8 @@
             <div class="card-body">
               <h5 class="card-title">
                 <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
-                  なまえ：<%= member.name %><br>
-                  総合得点：<%= member.scoring_rate %><br>
-                  総合試合：<%= member.total_match %><br>
-                  平均：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
+                  名前：<%= member.name %><br>
+                  平均得点率：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
                 <% end %>
                 <% if member.bsk_already_participation? %>
                   <span class="badge bg-success">参加中</span>
@@ -93,3 +89,4 @@
 <% end %>
 </div>
 </div>
+<%= link_to "I", detail_bsk_members_path, class: "btn btn-outline-light"  %>

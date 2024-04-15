@@ -14,7 +14,7 @@
 <% @members.each do |member| %>
 <div class="card my-4">
 <%= link_to edit_bsk_member_path(member), class: "text-decoration-none text-dark text-center" do %>
-    なまえ：<%= member.name %><br>
+    名前：<%= member.name %><br>
     総合得点：<%= member.scoring_rate %><br>
     総合試合：<%= member.total_match %><br>
     平均：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
