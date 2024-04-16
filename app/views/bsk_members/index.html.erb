@@ -20,8 +20,7 @@
           <div class="card text-center border border-success border-2">
             <div class="card-body">
               <h5 class="card-title ext-decoration-none text-dark">
-                  なまえ：<%= member.name %><br>
-                  平均得点率：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
+                  <%= member.name %><br>
                   
                 <% if member.bsk_already_participation? %>
                   <span class="badge bg-success">参加中</span>
@@ -45,8 +44,8 @@
             <div class="card-body">
               <h5 class="card-title">
                 <%= link_to edit_member_path(member), class: "text-decoration-none text-dark" do %>
-                  名前：<%= member.name %><br>
-                  平均得点率：<%= number_with_precision(member.point_per_game, precision: 2) %><br>
+                  <%= member.name %><br>
+                
                 <% end %>
                 <% if member.bsk_already_participation? %>
                   <span class="badge bg-success">参加中</span>
